@@ -11,5 +11,6 @@ const app = config_1.default.app;
 app.set('views', path_1.default.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express_1.default.static(path_1.default.join(__dirname, 'assets')));
+app.use(express_1.default.static(path_1.default.join(__dirname, 'assets/uploads'))); //for uploaded images
 app.use('/', index_route_1.default);
 config_1.default.runApp();
