@@ -4,6 +4,19 @@ import multer from 'multer';
 
 const router = Router();
 
+//add multer middleware
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'src/assets/uploads')
+    },
+    filename: (req, file, cb) => {
+        // cb(null, file.originalname)
+        cb(null, `${Date.now()}-${file.originalname}`)
+    }
+})
+//give multer the storage configuration
+const upload = multer({ storage })
+
 router.get('/', async (req, res, next) => {
     try {
         const photos = await Photo.find();
@@ -17,13 +30,19 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post(
-    '/',
     /** @TODO Add multer middleware */
+    //upload single file with name 'image'
+    '/', upload.single('image'),
     async (req, res, next) => {
         try {
+            const { title } = req.body;
+            const image = req.file;
+            const photo = new Photo({ title, image });
 
             /** @TODO Save Photo in database */
+            await photo.save();
             res.redirect('/');
+            res.status(200).json({ message: 'photo and title saved successfully' });
 
         } catch (err) {
             console.error(err);
