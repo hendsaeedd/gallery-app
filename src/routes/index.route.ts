@@ -36,8 +36,9 @@ router.post(
     async (req, res, next) => {
         try {
             const { title } = req.body;
-            const image = req.file;
-            const photo = new Photo({ title, image });
+            const filename = req.file?.filename;
+            const path = `/${filename}`;
+            const photo = new Photo({ title, path });
 
             /** @TODO Save Photo in database */
             await photo.save();
