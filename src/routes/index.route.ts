@@ -43,7 +43,6 @@ router.post(
             /** @TODO Save Photo in database */
             await photo.save();
             res.redirect('/');
-            res.status(200).json({ message: 'photo and title saved successfully' });
 
         } catch (err) {
             console.error(err);
